@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Shylah P. 🦋</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --deep:      #0D0618;
+      --plum:      #1A0A2E;
+      --purple:    #7B2FBE;
+      --violet:    #9B59D0;
+      --lavender:  #C084FC;
+      --lilac:     #E9D5FF;
+      --pink:      #FF2D78;
+      --silver:    #F0E6FF;
+      --muted:     #A78BC0;
+      --card:      #1E0D35;
+      --card-border: rgba(192,132,252,0.2);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--deep);
+      color: var(--silver);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── WEB CANVAS ── */
+    #web-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.18;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1.5rem 4rem;
+      background: radial-gradient(ellipse at 70% 20%, #3b1170 0%, #1a0a2e 45%, #0d0618 100%);
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    /* glow blobs */
+    .hero::before, .hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .hero::before {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, #7b2fbe, transparent 70%);
+      top: -150px; right: -150px;
+      animation: drift 9s ease-in-out infinite alternate;
+    }
+    .hero::after {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, #ff2d78, transparent 70%);
+      bottom: -100px; left: -80px;
+      animation: drift 12s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes drift {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(25px, 18px) scale(1.06); }
+    }
+
+    /* ── SPIDER-MAN FIGURE ── */
+    .spiderman {
+      position: absolute;
+      right: -10px;
+      bottom: 0;
+      width: clamp(180px, 28vw, 320px);
+      z-index: 2;
+      opacity: 0.92;
+      filter: drop-shadow(0 0 30px rgba(123,47,190,0.6));
+      animation: spideyHover 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes spideyHover {
+      0%, 100% { transform: translateY(0) rotate(-1deg); }
+      50%       { transform: translateY(-14px) rotate(1deg); }
+    }
+
+    /* spider emoji floating */
+    .spider-float {
+      position: absolute;
+      font-size: 1.4rem;
+      opacity: 0.25;
+      animation: floatAround linear infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes floatAround {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 0.15; }
+      50%  { opacity: 0.35; }
+      100% { transform: translateY(-30px) rotate(10deg); opacity: 0.15; }
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--lavender);
+      margin-bottom: 1.2rem;
+      position: relative; z-index: 2;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 10vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1.0;
+      color: var(--silver);
+      position: relative; z-index: 2;
+      margin-bottom: 0.3rem;
+      text-shadow: 0 0 40px rgba(192,132,252,0.4);
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--lavender);
+      text-shadow: 0 0 30px rgba(192,132,252,0.6);
+    }
+
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      position: relative; z-index: 2;
+    }
+
+    .note-pills {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative; z-index: 2;
+      margin-bottom: 2.8rem;
+    }
+
+    .pill {
+      background: rgba(123,47,190,0.25);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(192,132,252,0.35);
+      border-radius: 99px;
+      padding: 0.45rem 1.1rem;
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: var(--lavender);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* spider web badge in hero */
+    .web-badge {
+      position: relative; z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,45,120,0.15);
+      border: 1px solid rgba(255,45,120,0.35);
+      border-radius: 99px;
+      padding: 0.4rem 1rem;
+      font-size: 0.78rem;
+      color: #FF6EA8;
+      margin-bottom: 2rem;
+      letter-spacing: 0.05em;
+    }
+
+    .scroll-hint {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      animation: bob 2s ease-in-out infinite;
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(5px); }
+    }
+
+    /* ── PAGE WRAPPER ── */
+    .page-content { position: relative; z-index: 1; }
+
+    /* ── SECTIONS ── */
+    section {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem;
+    }
+
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--lavender);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      font-weight: 400;
+      color: var(--silver);
+      margin-bottom: 1.4rem;
+      line-height: 1.15;
+    }
+
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--purple), transparent);
+      border: none;
+      margin-bottom: 1.6rem;
+    }
+
+    /* ── SECTION BACKGROUNDS ── */
+    .bg-plum   { background: #110520; }
+    .bg-deeper { background: #0a0115; }
+
+    /* ── PROFILE CARD ── */
+    .profile-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      box-shadow: 0 4px 40px rgba(123,47,190,0.15), inset 0 1px 0 rgba(192,132,252,0.1);
+    }
+
+    .profile-item { display: flex; flex-direction: column; gap: 0.3rem; }
+
+    .profile-item-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .profile-item-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--silver);
+    }
+
+    .vibe-text {
+      grid-column: 1 / -1;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--muted);
+      font-style: italic;
+      border-top: 1px solid rgba(192,132,252,0.15);
+      padding-top: 1.2rem;
+    }
+
+    /* ── LOTION LIST ── */
+    .lotion-list { display: flex; flex-direction: column; gap: 0.8rem; }
+
+    .lotion-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      background: var(--card);
+      border-radius: 14px;
+      border: 1px solid var(--card-border);
+      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+    }
+    .lotion-row:hover {
+      box-shadow: 0 6px 28px rgba(123,47,190,0.2);
+      border-color: rgba(192,132,252,0.4);
+      transform: translateY(-1px);
+    }
+
+    .lotion-icon {
+      width: 38px; height: 38px;
+      background: rgba(123,47,190,0.2);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .lotion-info { flex: 1; }
+    .lotion-name { font-weight: 500; font-size: 0.95rem; color: var(--silver); margin-bottom: 0.2rem; }
+    .lotion-why  { font-size: 0.83rem; color: var(--muted); line-height: 1.5; }
+
+    .pro-tip {
+      margin-top: 1.2rem;
+      background: rgba(255,45,120,0.08);
+      border-left: 3px solid var(--pink);
+      border-radius: 0 12px 12px 0;
+      padding: 1rem 1.2rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .pro-tip strong { color: var(--pink); }
+
+    /* ── COMBO CARDS ── */
+    .combo-grid { display: flex; flex-direction: column; gap: 1.2rem; }
+
+    .combo-card {
+      background: var(--card);
+      border-radius: 18px;
+      border: 1px solid var(--card-border);
+      padding: 1.4rem 1.5rem;
+      transition: box-shadow 0.2s, border-color 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .combo-card::before {
+      content: '🕷️';
+      position: absolute;
+      right: 1rem; top: 1rem;
+      font-size: 1.1rem;
+      opacity: 0.15;
+    }
+    .combo-card:hover {
+      box-shadow: 0 8px 36px rgba(123,47,190,0.2);
+      border-color: rgba(192,132,252,0.4);
+    }
+
+    .combo-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .combo-number {
+      width: 28px; height: 28px;
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      color: white;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 600;
+      flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(123,47,190,0.5);
+    }
+
+    .combo-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--silver);
+    }
+
+    .combo-scents {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .combo-scent-tag {
+      background: rgba(123,47,190,0.2);
+      color: var(--lavender);
+      border: 1px solid rgba(192,132,252,0.25);
+      border-radius: 99px;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.78rem;
+      font-weight: 500;
+    }
+    .combo-scent-tag.highlight {
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 0 14px rgba(123,47,190,0.4);
+    }
+
+    .combo-desc { font-size: 0.87rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── DUPE GRID ── */
+    .dupe-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+
+    .dupe-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .dupe-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(123,47,190,0.18);
+      border-color: rgba(192,132,252,0.4);
+    }
+
+    .dupe-brand {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--lavender);
+      margin-bottom: 0.25rem;
+    }
+    .dupe-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--silver);
+      margin-bottom: 0.3rem;
+    }
+    .dupe-sim { font-size: 0.78rem; color: var(--muted); line-height: 1.45; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2.5rem 1.5rem 3rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      border-top: 1px solid rgba(192,132,252,0.12);
+      position: relative; z-index: 1;
+    }
+
+    footer .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--lavender);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .footer-web {
+      font-size: 1.5rem;
+      margin-bottom: 0.6rem;
+      display: block;
+      opacity: 0.5;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 520px) {
+      .profile-card { grid-template-columns: 1fr; }
+      .dupe-grid    { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ANIMATED WEB BACKGROUND -->
+<canvas id="web-canvas"></canvas>
+
+<!-- HERO -->
+<header class="hero">
+  <!-- SPIDER-MAN SVG -->
+  <svg class="spiderman" viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg" aria-label="Spider-Man">
+    <!-- web line from top -->
+    <line x1="100" y1="0" x2="100" y2="55" stroke="#C084FC" stroke-width="1.5" opacity="0.7"/>
+    <!-- HEAD -->
+    <ellipse cx="100" cy="68" rx="28" ry="30" fill="#C00020"/>
+    <!-- mask eyes - white lenses outlined in black -->
+    <ellipse cx="88"  cy="63" rx="12" ry="10" fill="white" opacity="0.95"/>
+    <ellipse cx="112" cy="63" rx="12" ry="10" fill="white" opacity="0.95"/>
+    <ellipse cx="88"  cy="63" rx="9"  ry="7.5" fill="#7B2FBE"/>
+    <ellipse cx="112" cy="63" rx="9"  ry="7.5" fill="#7B2FBE"/>
+    <!-- web lines on face -->
+    <path d="M72 58 Q100 70 128 58" stroke="#700010" stroke-width="0.8" fill="none"/>
+    <path d="M74 68 Q100 78 126 68" stroke="#700010" stroke-width="0.8" fill="none"/>
+    <line x1="100" y1="40" x2="100" y2="96" stroke="#700010" stroke-width="0.8"/>
+    <!-- TORSO -->
+    <path d="M72 96 Q62 130 65 175 L135 175 Q138 130 128 96 Z" fill="#C00020"/>
+    <!-- spider logo on chest -->
+    <g transform="translate(100,130)" fill="#000" opacity="0.85">
+      <ellipse cx="0" cy="-6" rx="7" ry="4"/>
+      <ellipse cx="0" cy="4"  rx="9" ry="6"/>
+      <line x1="-14" y1="2"  x2="-5"  y2="0"  stroke="#000" stroke-width="1.5"/>
+      <line x1="14"  y1="2"  x2="5"   y2="0"  stroke="#000" stroke-width="1.5"/>
+      <line x1="-13" y1="-2" x2="-5"  y2="1"  stroke="#000" stroke-width="1.5"/>
+      <line x1="13"  y1="-2" x2="5"   y2="1"  stroke="#000" stroke-width="1.5"/>
+      <line x1="-11" y1="7"  x2="-4"  y2="5"  stroke="#000" stroke-width="1.5"/>
+      <line x1="11"  y1="7"  x2="4"   y2="5"  stroke="#000" stroke-width="1.5"/>
+    </g>
+    <!-- ARMS - raised up web-shooting pose -->
+    <!-- left arm up -->
+    <path d="M72 105 Q45 80 30 55" stroke="#C00020" stroke-width="14" stroke-linecap="round" fill="none"/>
+    <path d="M72 105 Q45 80 30 55" stroke="#9B0018" stroke-width="11" stroke-linecap="round" fill="none"/>
+    <!-- left hand -->
+    <circle cx="30" cy="55" r="8" fill="#C00020"/>
+    <!-- web shooting from left hand -->
+    <line x1="22" y1="50" x2="0"  y2="20" stroke="#E9D5FF" stroke-width="1.2" opacity="0.8"/>
+    <line x1="22" y1="50" x2="5"  y2="15" stroke="#E9D5FF" stroke-width="0.8" opacity="0.6"/>
+    <!-- right arm angled out -->
+    <path d="M128 105 Q150 115 168 108" stroke="#C00020" stroke-width="14" stroke-linecap="round" fill="none"/>
+    <path d="M128 105 Q150 115 168 108" stroke="#9B0018" stroke-width="11" stroke-linecap="round" fill="none"/>
+    <circle cx="168" cy="108" r="7" fill="#C00020"/>
+    <!-- LEGS -->
+    <!-- left leg -->
+    <path d="M80 175 Q72 220 68 270 Q66 300 72 330" stroke="#1A0A5E" stroke-width="18" stroke-linecap="round" fill="none"/>
+    <path d="M80 175 Q72 220 68 270 Q66 300 72 330" stroke="#2D1A8E" stroke-width="14" stroke-linecap="round" fill="none"/>
+    <!-- right leg -->
+    <path d="M120 175 Q128 220 132 270 Q134 300 128 330" stroke="#1A0A5E" stroke-width="18" stroke-linecap="round" fill="none"/>
+    <path d="M120 175 Q128 220 132 270 Q134 300 128 330" stroke="#2D1A8E" stroke-width="14" stroke-linecap="round" fill="none"/>
+    <!-- boots -->
+    <path d="M60 325 Q65 345 80 348 Q72 350 60 340 Z" fill="#C00020"/>
+    <path d="M120 325 Q125 345 140 340 Q128 350 120 348 Z" fill="#C00020"/>
+    <!-- web detail lines on torso -->
+    <path d="M100 96 Q80 120 65 175" stroke="#9B0018" stroke-width="0.8" fill="none" opacity="0.6"/>
+    <path d="M100 96 Q120 120 135 175" stroke="#9B0018" stroke-width="0.8" fill="none" opacity="0.6"/>
+    <path d="M72 118 Q100 126 128 118" stroke="#9B0018" stroke-width="0.8" fill="none" opacity="0.6"/>
+    <path d="M68 140 Q100 150 132 140" stroke="#9B0018" stroke-width="0.8" fill="none" opacity="0.6"/>
+    <path d="M66 162 Q100 172 134 162" stroke="#9B0018" stroke-width="0.8" fill="none" opacity="0.6"/>
+    <!-- purple glow aura -->
+    <ellipse cx="100" cy="200" rx="60" ry="180" fill="url(#spideyGlow)" opacity="0.12"/>
+    <defs>
+      <radialGradient id="spideyGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#C084FC"/>
+        <stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+    </defs>
+  </svg>
+
+  <!-- floating spider decorations -->
+  <span class="spider-float" style="top:12%;left:8%;animation-duration:6s;animation-delay:0s;">🕸️</span>
+  <span class="spider-float" style="top:20%;right:10%;animation-duration:8s;animation-delay:1s;">🕷️</span>
+  <span class="spider-float" style="bottom:25%;left:5%;animation-duration:7s;animation-delay:2s;">🕸️</span>
+  <span class="spider-float" style="bottom:15%;right:7%;animation-duration:9s;animation-delay:0.5s;">🕷️</span>
+
+  <p class="hero-eyebrow">For Shylah P. 🦋</p>
+  <h1 class="hero-title">Sweetest<br /><em>Pretty Girl</em></h1>
+  <p class="hero-subtitle">pink strawberries · peach nectar · peony blooms</p>
+  <div class="web-badge">🕷️ &nbsp;Gingham Gorgeous · Scent Guide</div>
+  <div class="note-pills">
+    <span class="pill">🍓 Pink Strawberries</span>
+    <span class="pill">🍑 Peach Nectar</span>
+    <span class="pill">🌸 Peony Blooms</span>
+  </div>
+  <div class="scroll-hint">
+    <span>Explore</span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</header>
+
+<div class="page-content">
+
+<!-- SCENT PROFILE -->
+<div>
+  <section>
+    <p class="section-label">The Profile</p>
+    <h2 class="section-title">What does it smell like?</h2>
+    <hr class="divider" />
+    <div class="profile-card">
+      <div class="profile-item">
+        <span class="profile-item-label">Scent Family</span>
+        <span class="profile-item-value">Floral Fruity</span>
+      </div>
+      <div class="profile-item">
+        <span class="profile-item-label">Best Season</span>
+        <span class="profile-item-value">Spring & Summer ☀️</span>
+      </div>
+      <div class="profile-item">
+        <span class="profile-item-label">Occasion</span>
+        <span class="profile-item-value">Daytime · Brunch · Class</span>
+      </div>
+      <div class="profile-item">
+        <span class="profile-item-label">Vibe</span>
+        <span class="profile-item-value">Feminine · Bright · Playful</span>
+      </div>
+      <p class="vibe-text">
+        Opens sweet and fruity with a burst of strawberry and peach, then softens into a floral heart of peonies — like a bouquet of flowers in every room of your home. Think: picnic in a flower garden, light and airy, very "pretty girl spring."
+      </p>
+    </div>
+  </section>
+</div>
+
+<!-- LOTIONS -->
+<div class="bg-plum">
+  <section>
+    <p class="section-label">Layer It</p>
+    <h2 class="section-title">Best lotion pairings</h2>
+    <hr class="divider" />
+    <div class="lotion-list">
+      <div class="lotion-row">
+        <div class="lotion-icon">✨</div>
+        <div class="lotion-info">
+          <p class="lotion-name">Gingham Gorgeous Body Lotion</p>
+          <p class="lotion-why">Perfect match — same line, same notes, maximum longevity. This is the go-to.</p>
+        </div>
+      </div>
+      <div class="lotion-row">
+        <div class="lotion-icon">🌸</div>
+        <div class="lotion-info">
+          <p class="lotion-name">Japanese Cherry Blossom</p>
+          <p class="lotion-why">Adds soft floral depth without overpowering the peach and strawberry top notes.</p>
+        </div>
+      </div>
+      <div class="lotion-row">
+        <div class="lotion-icon">🌙</div>
+        <div class="lotion-info">
+          <p class="lotion-name">Into the Night</p>
+          <p class="lotion-why">Creates sultry contrast — floral by day, mysterious base underneath. Great for evenings out.</p>
+        </div>
+      </div>
+      <div class="lotion-row">
+        <div class="lotion-icon">🤍</div>
+        <div class="lotion-info">
+          <p class="lotion-name">Moonlight Path</p>
+          <p class="lotion-why">Soft, clean musk grounds the fruity top notes beautifully. Elegant and effortless.</p>
+        </div>
+      </div>
+      <div class="lotion-row">
+        <div class="lotion-icon">🍦</div>
+        <div class="lotion-info">
+          <p class="lotion-name">Warm Vanilla Sugar</p>
+          <p class="lotion-why">Warms everything up and makes it cozier — perfect for a fall transition.</p>
+        </div>
+      </div>
+    </div>
+    <div class="pro-tip">
+      <strong>Pro tip:</strong> Apply lotion first, let it absorb, <em>then</em> spray — your scent will last 2–3× longer.
+    </div>
+  </section>
+</div>
+
+<!-- COMBOS -->
+<div>
+  <section>
+    <p class="section-label">Mix & Match</p>
+    <h2 class="section-title">Layering combos</h2>
+    <hr class="divider" />
+    <div class="combo-grid">
+
+      <div class="combo-card">
+        <div class="combo-header">
+          <div class="combo-number">01</div>
+          <span class="combo-name">Soft Girl Summer 🍑</span>
+        </div>
+        <div class="combo-scents">
+          <span class="combo-scent-tag highlight">Gingham Gorgeous</span>
+          <span class="combo-scent-tag">+ Pink Obsession</span>
+        </div>
+        <p class="combo-desc">Strawberry + peach + pink notes = ultra feminine, bright, and sweet. Very "clean girl" energy. Perfect for a hot day out.</p>
+      </div>
+
+      <div class="combo-card">
+        <div class="combo-header">
+          <div class="combo-number">02</div>
+          <span class="combo-name">Champagne Picnic 🥂</span>
+        </div>
+        <div class="combo-scents">
+          <span class="combo-scent-tag highlight">Gingham Gorgeous</span>
+          <span class="combo-scent-tag">+ Champagne Toast</span>
+        </div>
+        <p class="combo-desc">The bubbly, citrusy champagne lifts the peony and peach into something effervescent and festive. Great for going out.</p>
+      </div>
+
+      <div class="combo-card">
+        <div class="combo-header">
+          <div class="combo-number">03</div>
+          <span class="combo-name">A Thousand Wishes Glow-Up ✨</span>
+        </div>
+        <div class="combo-scents">
+          <span class="combo-scent-tag highlight">Gingham Gorgeous</span>
+          <span class="combo-scent-tag">+ A Thousand Wishes</span>
+        </div>
+        <p class="combo-desc">ATW adds sparkling champagne, almond, and peach. Combined with Gorgeous, you get a dreamy, almost luxury fruity floral. The most elevated combo.</p>
+      </div>
+
+      <div class="combo-card">
+        <div class="combo-header">
+          <div class="combo-number">04</div>
+          <span class="combo-name">Floral Fantasy 🌺</span>
+        </div>
+        <div class="combo-scents">
+          <span class="combo-scent-tag highlight">Gingham Gorgeous</span>
+          <span class="combo-scent-tag">+ Japanese Cherry Blossom</span>
+        </div>
+        <p class="combo-desc">Doubles down on the floral while adding a powdery softness. Very romantic and delicate — a bouquet in a bottle.</p>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- DESIGNER DUPES -->
+<div class="bg-deeper">
+  <section>
+    <p class="section-label">Level Up</p>
+    <h2 class="section-title">Similar perfumes to try</h2>
+    <hr class="divider" />
+    <div class="dupe-grid">
+
+      <div class="dupe-card">
+        <p class="dupe-brand">GUESS</p>
+        <p class="dupe-name">1981 Los Angeles</p>
+        <p class="dupe-sim">Peach + floral, very similar energy. Great budget-friendly step up.</p>
+      </div>
+
+      <div class="dupe-card">
+        <p class="dupe-brand">Viktor &amp; Rolf</p>
+        <p class="dupe-name">Flowerbomb</p>
+        <p class="dupe-sim">Same fruity-floral family, more intense and long-lasting. The designer version of this vibe.</p>
+      </div>
+
+      <div class="dupe-card">
+        <p class="dupe-brand">Lanvin</p>
+        <p class="dupe-name">Jeanne</p>
+        <p class="dupe-sim">Peony-forward and elegant — the grown-up, polished version.</p>
+      </div>
+
+      <div class="dupe-card">
+        <p class="dupe-brand">Ariana Grande</p>
+        <p class="dupe-name">Cloud</p>
+        <p class="dupe-sim">Fruity, soft, and sweet — very comparable feel at an accessible price point.</p>
+      </div>
+
+      <div class="dupe-card">
+        <p class="dupe-brand">Sol de Janeiro</p>
+        <p class="dupe-name">Cheirosa 59</p>
+        <p class="dupe-sim">Peach + floral mist with huge dupe energy. The body spray world's luxury answer.</p>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-web">🕸️</span>
+  <span class="footer-brand">For Shylah P. 🦋</span>
+  Pink Obsession · Champagne Toast · A Thousand Wishes pair beautifully with this scent<br/>
+  <span style="margin-top:0.5rem; display:block; opacity:0.5;">Made with love · 🕷️ your friendly neighborhood scent guide</span>
+</footer>
+
+</div><!-- end page-content -->
+
+<script>
+  // Animated spider web on canvas
+  const canvas = document.getElementById('web-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); drawWeb(); });
+
+  function drawWeb() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const cx = canvas.width * 0.85;
+    const cy = canvas.height * 0.12;
+    const maxR = Math.min(canvas.width, canvas.height) * 0.55;
+    const spokes = 12;
+    const rings  = 7;
+
+    ctx.strokeStyle = '#C084FC';
+    ctx.lineWidth   = 0.7;
+
+    // draw spokes
+    for (let i = 0; i < spokes; i++) {
+      const angle = (i / spokes) * Math.PI * 2;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + Math.cos(angle) * maxR, cy + Math.sin(angle) * maxR);
+      ctx.stroke();
+    }
+
+    // draw concentric web rings (polygon)
+    for (let r = 1; r <= rings; r++) {
+      const radius = (r / rings) * maxR;
+      ctx.beginPath();
+      for (let i = 0; i <= spokes; i++) {
+        const angle = (i / spokes) * Math.PI * 2;
+        const x = cx + Math.cos(angle) * radius;
+        const y = cy + Math.sin(angle) * radius;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.stroke();
+    }
+
+    // second smaller web bottom-left
+    const cx2 = canvas.width * 0.08;
+    const cy2 = canvas.height * 0.88;
+    const maxR2 = Math.min(canvas.width, canvas.height) * 0.3;
+    const spokes2 = 10;
+    const rings2  = 5;
+
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i < spokes2; i++) {
+      const angle = (i / spokes2) * Math.PI * 2;
+      ctx.beginPath();
+      ctx.moveTo(cx2, cy2);
+      ctx.lineTo(cx2 + Math.cos(angle) * maxR2, cy2 + Math.sin(angle) * maxR2);
+      ctx.stroke();
+    }
+    for (let r = 1; r <= rings2; r++) {
+      const radius = (r / rings2) * maxR2;
+      ctx.beginPath();
+      for (let i = 0; i <= spokes2; i++) {
+        const angle = (i / spokes2) * Math.PI * 2;
+        const x = cx2 + Math.cos(angle) * radius;
+        const y = cy2 + Math.sin(angle) * radius;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.stroke();
+    }
+  }
+
+  drawWeb();
+
+  // subtle pulse animation on web
+  let alpha = 0.18;
+  let dir = -1;
+  function pulse() {
+    alpha += dir * 0.002;
+    if (alpha <= 0.10 || alpha >= 0.22) dir *= -1;
+    canvas.style.opacity = alpha;
+    requestAnimationFrame(pulse);
+  }
+  pulse();
+</script>
+
+</body>
+</html>
